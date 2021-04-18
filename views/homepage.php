@@ -20,6 +20,7 @@
     <!-- Content--> 
 
     <main class="container-fluid">
+        <?php if (isset($user)) echo"<p> WELCOME  $user->$name</p>"; ?>
         <div class="row">
             <div class="col-md-2 left mt-4">
                 <h3>Loại Mặt Hàng:</h3>

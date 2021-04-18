@@ -1,11 +1,11 @@
 <?php
 
-include_once dirname(__DIR__).'/dao/SanPhamDAO.php';
+include_once dirname(__DIR__).'/dao/ProductDAO.php';
 
-class SanPhamService {
+class ProductService {
 
     public static function findAll() {
-        return SanPhamDAO::findAll();
+        return ProductDAO::findAll();
     }
 
     // public static function findAll() {

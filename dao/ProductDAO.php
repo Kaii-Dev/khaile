@@ -2,22 +2,22 @@
 
 include_once 'dbconnect.php';
 
-include_once dirname(__DIR__).'/models/ThuongHieuModel.php';
+include_once dirname(__DIR__).'/models/ProductModel.php';
 
-class ThuongHieuDAO {
+class ProductDAO {
 
     private static function queryAll($sql) {
         global $conn;
 
         $result = $conn->query($sql);
 
-        $listStudent = array();
+        $listProduct = array();
 
         while ($row = $result->fetch_assoc()) { 
-            array_push($listStudent, new ThuongHieuModel($row));
+            array_push($listStudent, new ProductModel($row));
         }
 
-        return $listStudent;
+        return $listProduct;
     }
 
     private static function queryTop($sql) {
@@ -29,7 +29,7 @@ class ThuongHieuDAO {
         if ($result->num_rows > 0) {
             // thanh cong
             $row = $result->fetch_assoc();
-            return new ThuongHieuModel($row);
+            return new ProductModel($row);
         } else {
             // that bai
             return null;
@@ -38,8 +38,8 @@ class ThuongHieuDAO {
     }
 
     public static function findAll() {
-        $sql = "SELECT * FROM THUONG_HIEU";
-        return ThuongHieuDAO::queryAll($sql);
+        $sql = "SELECT * FROM SAN_PHAM";
+        return ProductDAO::queryAll($sql);
     }
     
 }

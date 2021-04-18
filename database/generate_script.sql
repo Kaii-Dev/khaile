@@ -1,132 +1,97 @@
-/*==============================================================*/
-/* DBMS name:      MySQL 5.0                                    */
-/* Created on:     12/04/2021 9:56:13 CH                        */
-/*==============================================================*/
 
-
-drop table if exists CHI_TIET_HOA_DON;
-
-drop table if exists CHI_TIET_NHAP;
-
-drop table if exists HINH_ANH;
-
-drop table if exists HOA_DON;
-
-drop table if exists NGUOI_DUNG;
-
-drop table if exists SAN_PHAM;
-
-drop table if exists THUONG_HIEU;
 
 /*==============================================================*/
-/* Table: CHI_TIET_HOA_DON                                      */
+/* Table: CAGETORY                                              */
 /*==============================================================*/
-create table CHI_TIET_HOA_DON
+create table CAGETORY
 (
-   HD_ID                bigint not null,
-   SP_ID                bigint not null,
-   CTHD_SO_LUONG        int,
-   CTHD_GIA             float(13,2),
-   primary key (HD_ID, SP_ID)
+   C_ID                 Bigint not null,
+   C_NAME               varchar(572),
+   C_CODE               varchar(256),
+   primary key (C_ID)
 );
 
 /*==============================================================*/
-/* Table: CHI_TIET_NHAP                                         */
+/* Table: GALLERY                                               */
 /*==============================================================*/
-create table CHI_TIET_NHAP
+create table GALLERY
 (
-   ND_ID                bigint not null,
-   SP_ID                bigint not null,
-   CTN_SO_LUONG         int,
-   CTN_GIA              float(13,2),
-   CTN_THOI_GIAN_NHAP   datetime,
-   primary key (ND_ID, SP_ID)
+   G_ID                Bigint not null AUTO_INCREMENT,
+   P_ID                 Bigint not null,
+   G_NAME               varchar(256),
+   G_LINK               varchar(256) not null,
+   primary key (G_ID)
 );
 
 /*==============================================================*/
-/* Table: HINH_ANH                                              */
+/* Table: INVOICE                                               */
 /*==============================================================*/
-create table HINH_ANH
+create table INVOICE
 (
-   HA_ID                bigint not null AUTO_INCREMENT,
-   SP_ID                bigint not null,
-   HA_LINK              varchar(256) not null,
-   HA_TEN               varchar(256),
-   primary key (HA_ID)
+   I_ID                 Bigint not null AUTO_INCREMENT,
+   U_ID                 Bigint not null,
+   I_OPEN_TIME          time,
+   I_CHECKOUT_TIME      datetime,
+   I_STATUS             varchar(256),
+   I_SHIPPING_ADDRESS   text,
+   I_TOTAL              float(8,2),
+   primary key (I_ID)
 );
 
 /*==============================================================*/
-/* Table: HOA_DON                                               */
+/* Table: PRODUCT                                               */
 /*==============================================================*/
-create table HOA_DON
+create table PRODUCT
 (
-   HD_ID                bigint not null AUTO_INCREMENT,
-   ND_ID                bigint not null,
-   HD_THOI_GIAN_MO      datetime,
-   HD_THOI_GIAN_DONG    datetime,
-   HD_TRANG_THAI        varchar(256),
-   HD_TONG_TIEN         float(13,2),
-   HD_DIA_CHI           varchar(256),
-   primary key (HD_ID)
+   P_ID                 Bigint not null AUTO_INCREMENT,
+   C_ID                 Bigint not null,
+   P_NAME               varchar(256),
+   P_SIZE               char(3),
+   P_MATERIAL           longtext,
+   P_PRICE              float(8,2),
+   P_DES                varchar(572),
+   P_STATUS             text,
+   primary key (P_ID)
 );
 
 /*==============================================================*/
-/* Table: NGUOI_DUNG                                            */
+/* Table: PURCHASE_DETAIL                                       */
 /*==============================================================*/
-create table NGUOI_DUNG
+create table PURCHASE_DETAIL
 (
-   ND_ID                bigint not null AUTO_INCREMENT,
-   ND_EMAIL             varchar(256) not null,
-   ND_HO_TEN            varchar(256) not null,
-   ND_NGAY_SINH         date,
-   ND_PASSWORD          varchar(256) not null,
-   ND_VAI_TRO           varchar(256),
-   primary key (ND_ID)
+   P_ID                 Bigint not null,
+   I_ID                 Bigint not null,
+   PD_AMOUNT            numeric(8,0),
+   PD_PRICE             float(8,2) not null,
+   primary key (P_ID, I_ID)
 );
 
 /*==============================================================*/
-/* Table: SAN_PHAM                                              */
+/* Table: USER                                                  */
 /*==============================================================*/
-create table SAN_PHAM
+create table USER
 (
-   SP_ID                bigint not null AUTO_INCREMENT,
-   TH_ID                bigint not null,
-   SP_TEN               varchar(256) not null,
-   SP_GIA               float(13,2),
-   SP_TRANG_THAI        varchar(256),
-   SP_MO_TA             text,
-   primary key (SP_ID)
+   U_ID                 Bigint not null AUTO_INCREMENT,
+   U_EMAIL              varchar(256) not null,
+   U_PASSWORD           varchar(256),
+   U_NAME               varchar(50) not null,
+   U_PHONE              varchar(15) not null, 
+   U_ADDRESS            varchar(256) not null,
+   U_ROLE               varchar(256),
+   primary key (U_ID)
 );
 
-/*==============================================================*/
-/* Table: THUONG_HIEU                                           */
-/*==============================================================*/
-create table THUONG_HIEU
-(
-   TH_ID                bigint not null,
-   TH_TEN               varchar(256) not null,
-   TH_CODE              varchar(256),
-   primary key (TH_ID)
-);
+alter table GALLERY add constraint FK_RELATIONSHIP_2 foreign key (P_ID)
+      references PRODUCT (P_ID) on delete restrict on update restrict;
 
-alter table CHI_TIET_HOA_DON add constraint FK_RELATIONSHIP_5 foreign key (HD_ID)
-      references HOA_DON (HD_ID) on delete restrict on update restrict;
+alter table INVOICE add constraint FK_RELATIONSHIP_5 foreign key (U_ID)
+      references USER (U_ID) on delete restrict on update restrict;
 
-alter table CHI_TIET_HOA_DON add constraint FK_RELATIONSHIP_6 foreign key (SP_ID)
-      references SAN_PHAM (SP_ID) on delete restrict on update restrict;
+alter table PRODUCT add constraint FK_RELATIONSHIP_1 foreign key (C_ID)
+      references CAGETORY (C_ID) on delete restrict on update restrict;
 
-alter table CHI_TIET_NHAP add constraint FK_RELATIONSHIP_7 foreign key (ND_ID)
-      references NGUOI_DUNG (ND_ID) on delete restrict on update restrict;
+alter table PURCHASE_DETAIL add constraint FK_RELATIONSHIP_3 foreign key (P_ID)
+      references PRODUCT (P_ID) on delete restrict on update restrict;
 
-alter table CHI_TIET_NHAP add constraint FK_RELATIONSHIP_8 foreign key (SP_ID)
-      references SAN_PHAM (SP_ID) on delete restrict on update restrict;
-
-alter table HINH_ANH add constraint FK_RELATIONSHIP_3 foreign key (SP_ID)
-      references SAN_PHAM (SP_ID) on delete restrict on update restrict;
-
-alter table HOA_DON add constraint FK_RELATIONSHIP_4 foreign key (ND_ID)
-      references NGUOI_DUNG (ND_ID) on delete restrict on update restrict;
-
-alter table SAN_PHAM add constraint FK_RELATIONSHIP_1 foreign key (TH_ID)
-      references THUONG_HIEU (TH_ID) on delete restrict on update restrict;
-
+alter table PURCHASE_DETAIL add constraint FK_RELATIONSHIP_4 foreign key (I_ID)
+      references INVOICE (I_ID) on delete restrict on update restrict;

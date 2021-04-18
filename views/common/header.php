@@ -32,8 +32,8 @@
             </div>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <button class="btn btn-success my-2 my-sm-0 mr-3" type="button">Đăng Nhập</button>
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="button">Đăng Ký</button>
+                    <a href="/login.php" class="btn btn-success my-2 my-sm-0 mr-3" type="button">Đăng Nhập</a>
+                    <a href="login.php?action=register" class="btn btn-outline-success my-2 my-sm-0" type="button">Đăng Ký</a>
                 </li>
             </ul>
         </div>
